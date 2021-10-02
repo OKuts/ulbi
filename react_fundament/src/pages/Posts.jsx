@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {List} from '../components/List';
 import {PostForm} from '../components/PostForm';
 import {Filter} from '../components/filter/filter';
@@ -15,15 +15,31 @@ export const Posts = () => {
   const [filter, setFilter] = useState({search: '', select: ''});
   const [modalVisible, setModalVisible] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
-  const [params, setParams] = useState({limit: 4, page: 1})
+  const [params, setParams] = useState({limit: 5, page: 0})
+  const lastElement = useRef();
+  const observer = useRef();
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async ()=> {
     const response = await apiPosts.getAll(params.limit, params.page);
-    setPosts(response.data);
+    setPosts([...posts, ...response.data]);
     const totalPosts = response.headers['x-total-count']
     setTotalPage(getPageCount(totalPosts, params.limit));
   })
+
   const sortedAndSearchedPosts = usePosts(posts, filter.select, filter.search);
+
+  useEffect(()=> {
+    if (isPostsLoading) return;
+    if (observer.current) observer.current.disconnect();
+    var callback = function(entries, observer) {
+      if (entries[0].isIntersecting && params.page < totalPage) {
+        console.log('Div show');
+        setParams({...params, page: params.page + 1})
+      }
+    };
+    observer.current = new IntersectionObserver(callback);
+    observer.current.observe(lastElement.current)
+  },[isPostsLoading])
 
   useEffect(() => fetchPosts(),[params.page])
 
@@ -42,7 +58,8 @@ export const Posts = () => {
       <Filter filter = {filter} setFilter = {setFilter}/>
       {postError && <h1>{postError}</h1>}
       <List remove = {removePost} title='Post list' list={sortedAndSearchedPosts} isPostsLoading={isPostsLoading}/>
-      <Pagination setParams={setParams} params={params} totalPage={totalPage}/>
+      <div ref={lastElement} style={{padding: 5}}></div>
+      {/*<Pagination setParams={setParams} params={params} totalPage={totalPage}/>*/}
     </div>
   )
 }
