@@ -7,5 +7,8 @@ export const apiPosts = Object.freeze({
         _limit,
         _page,
       }
-    })
+    }),
+
+  getById: async (id) => await axios.get('https://jsonplaceholder.typicode.com/posts/' + id),
+  getComments: async (id) => await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`),
 })
