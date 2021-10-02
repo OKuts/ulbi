@@ -36,7 +36,6 @@ export const Posts = () => {
   return (
     <div className='App'>
       <MyButton style={{marginTop: 30}} onClick={() => setModalVisible(true)} children='Add post' />
-      <hr/>
       <MyModal visible={modalVisible} setVisible={setModalVisible}>
         <PostForm  create = {createPost} setVisible={setModalVisible}/>
       </MyModal>

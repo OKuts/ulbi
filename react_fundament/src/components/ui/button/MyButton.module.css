@@ -1,8 +1,12 @@
 .btn {
     background: transparent;
     padding: 5px 20px;
-    font-size: 20px;
+    font-size: 16px;
     border-radius: 10px;
     border: 1px solid teal;
     margin: 0 3px;
+}
+
+.btn:hover {
+    background: lightgray;
 }

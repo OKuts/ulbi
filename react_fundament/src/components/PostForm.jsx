@@ -21,7 +21,7 @@ export function PostForm({create, setVisible}) {
         value={post.body}
         onChange = {e => setPost({...post, body: e.target.value})}
         placeholder='description'/>
-      <MyButton onClick={addNewPost}>Send</MyButton>
+      <MyButton type='button' onClick={addNewPost}>Send</MyButton>
     </form>
   );
 }
