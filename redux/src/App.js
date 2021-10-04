@@ -1,9 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 
 function App() {
-  const cash = useSelector(state => state.cash);
+  const cash = useSelector(state => state.cash.cash);
   const dispatch = useDispatch();
 
   const getCash = (cash) => {
@@ -16,8 +15,8 @@ function App() {
   return (
     <div className="App">
       <div>{cash}</div>
-      <button onClick={()=>getCash(Number(prompt(cash)))}>-</button>
-      <button onClick={()=>addCash(Number(prompt(cash)))}>+</button>
+      <button onClick={()=>getCash(Number(prompt()))}>-</button>
+      <button onClick={()=>addCash(Number(prompt()))}>+</button>
     </div>
   );
 }
