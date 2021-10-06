@@ -3,11 +3,11 @@ import {useCallback, useRef} from "react";
 export function useDebounce(cb, delay) {
   const timer = useRef();
 
-  const debouncedCallback = useCallback((query) => {
+  const debouncedCallback = useCallback((...query) => {
     if (timer.current) clearTimeout(timer.current);
 
     timer.current = setTimeout(() => {
-      cb(query);
+      cb(...query);
     }, delay);
   }, [cb, delay]);
 
