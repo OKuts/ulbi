@@ -1,10 +1,10 @@
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
-import {addTodo, decrement, increment, removeTodo} from "./redux/mainReducer";
+import {addTodo, decrement, increment, removeTodo, selectCount} from "./toolkit/toolkitSlice";
 
 function App() {
-  const count =  useSelector(state => state.main.count);
-  const todos =  useSelector(state => state.main.todos);
+  const count =  useSelector(state => state.toolkit.count);
+  const todos =  useSelector(state => state.toolkit.todos);
   const dispatch = useDispatch();
 
   return (
